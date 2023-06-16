@@ -1,0 +1,70 @@
+class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return name.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionview.dequeueReusableCell(withReuseIdentifier: "coll", for: indexPath as IndexPath)
+        let lbl = UILabel()
+        lbl.frame = CGRect(x: 40, y: 75, width: 50, height: 50)
+        lbl.font = UIFont.systemFont(ofSize: 15)
+        lbl.text = self.name[indexPath.row]
+        let imageName = self.images[indexPath.row]
+        let image = UIImage(named: imageName)
+        let imageView = UIImageView(image: image!)
+        imageView.frame = CGRect(x: 20, y: 10, width: 75, height: 75)
+        cell.contentView.addSubview(imageView)
+        cell.contentView.addSubview(lbl)
+       cell.backgroundColor = .orange
+        return cell
+    }
+    
+
+    var name = ["raja","arjun","siva"]
+    var images = ["natural1","natural2","natural3"]
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return name.count
+    }
+    
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableview.dequeueReusableCell(withIdentifier: "cell",for: indexPath)
+        let lbl = UILabel()
+        lbl.frame = CGRect(x: 10, y: 10, width: 100, height: 40)
+        lbl.font = UIFont.systemFont(ofSize: 20)
+        lbl.text = self.name[indexPath.row]
+        let imageName = self.images[indexPath.row]
+        let image = UIImage(named: imageName)
+        let imageView = UIImageView(image: image!)
+        imageView.frame = CGRect(x: 150, y: 10, width: 50, height: 40)
+        cell.contentView.addSubview(imageView)
+        cell.contentView.addSubview(lbl)
+        return cell
+    }
+    
+
+var tableview = UITableView()
+    var collectionview : UICollectionView!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+        tableview.frame = CGRect(x: 10, y: 100, width: 300, height: 100)
+        tableview.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableview.delegate = self
+        tableview.dataSource = self
+        view.addSubview(tableview)
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        layout.itemSize = CGSize(width: 111, height: 111)
+
+        collectionview = UICollectionView(frame:CGRect(x: 10, y: 350, width: 300, height: 130), collectionViewLayout: layout)
+
+
+
+//        collectionview.frame = CGRect(x: 10, y: 350, width: 300, height: 300)
+        collectionview.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "coll")
+        collectionview.delegate = self
+        collectionview.dataSource = self
+        view.addSubview(collectionview)
+    }
